@@ -63,18 +63,22 @@ function playGame(){
             console.log("It's a draw!");
         }
         else{
-            console.log("That's not a valid choice.")
+            console.log("That's not a valid choice.");
+            --humanScore;
+            ++computerScore;
         }
     }
     
     for(let i = 0; i < 5; i++){
-        console.log("Round: " + (i+1))
         const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
+        console.log("Round: " + (i+1));
+        console.log("Your choice: " + humanSelection);
+        console.log("Computer choice: " + computerSelection);
         playRound(humanSelection, computerSelection); 
     }
 
-    if(humanScore > computerScore){
+    if(humanScore >= computerScore){
         console.log("YOU WIN THE GAME!")
     }
     else{
