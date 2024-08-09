@@ -4,3 +4,9 @@ function getComputerChoice(){
     else if(randomChoice == 1) return "Paper";
     else return "Scissors";
 }
+
+function getHumanChoice(){
+    let choice = prompt("What is your choice?");
+    let choiceLowerCase = choice.toLowerCase();
+    return choiceLowerCase;
+}
