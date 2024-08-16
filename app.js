@@ -5,85 +5,128 @@ function getComputerChoice(){
     else return "scissors";
 }
 
-function getHumanChoice(){
-    let choice = prompt("What is your choice?");
-    return choice;
-}
-
-
 function playGame(){
 
     let humanScore = 0;
     let computerScore = 0;
+    const buttons = document.querySelectorAll("button");
+    const results = document.querySelector(".results");
 
     function playRound(humanChoice, computerChoice){
+
         let humanChoiceLowerCase = humanChoice.toLowerCase();
-        //rock
-        if(humanChoiceLowerCase === "rock" && computerChoice === "rock"){
-            console.log("It's a draw!");
-        }
-        else if(humanChoiceLowerCase === "rock" && computerChoice === "paper"){
-            console.log("You lose! Paper beats rock.");
-            --humanScore;
-            ++computerScore;
-        }
-        else if(humanChoiceLowerCase === "rock" && computerChoice === "scissors"){
-            console.log("You win! Rock beats scissors.");
-            ++humanScore;
-            --computerScore;
-        }
+
         
-        //paper
-        else if(humanChoiceLowerCase === "paper" && computerChoice === "rock"){
-            console.log("You win! Paper beats rock.");
-            ++humanScore;
-            --computerScore;
-        }
-        else if(humanChoiceLowerCase === "paper" && computerChoice === "paper"){
-            console.log("It's a draw!");
-        }
-        else if(humanChoiceLowerCase === "paper" && computerChoice === "scissors"){
-            console.log("You lose! Scissors beats paper.");
-            --humanScore;
-            ++computerScore;
-        }
-    
-        //scissors
-        else if(humanChoiceLowerCase === "scissors" && computerChoice === "rock"){
-            console.log("You lose! Rock beats scissors.");
-            --humanScore;
-            ++computerScore;
-        }
-        else if(humanChoiceLowerCase === "scissors" && computerChoice === "paper"){
-            console.log("You win! Scissors beats paper.");
-            ++humanScore;
-            --computerScore;
-        }
-        else if(humanChoiceLowerCase === "scissors" && computerChoice === "scissors"){
-            console.log("It's a draw!");
-        }
-        else{
-            console.log("That's not a valid choice.");
-            --humanScore;
-            ++computerScore;
-        }
-    }
-    
-    for(let i = 0; i < 5; i++){
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        console.log("Round: " + (i+1));
-        console.log("Your choice: " + humanSelection);
-        console.log("Computer choice: " + computerSelection);
-        playRound(humanSelection, computerSelection); 
+            //rock
+            if(humanChoiceLowerCase === "rock" && computerChoice === "rock"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: rock. The computer chose rock. It's a draw!";
+                results.appendChild(runningScore);
+            }
+            else if(humanChoiceLowerCase === "rock" && computerChoice === "paper"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: rock. The computer chose paper. You lose!";
+                results.appendChild(runningScore);
+                ++computerScore;
+            }
+            else if(humanChoiceLowerCase === "rock" && computerChoice === "scissors"){
+                console.log("You win! Rock beats scissors.");
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: rock. The computer chose scissors. You win!";
+                results.appendChild(runningScore);
+                ++humanScore;
+            }
+            
+            //paper
+            else if(humanChoiceLowerCase === "paper" && computerChoice === "rock"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: paper. The computer chose rock. You win!";
+                results.appendChild(runningScore);
+                ++humanScore;
+            }
+            else if(humanChoiceLowerCase === "paper" && computerChoice === "paper"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: paper. The computer chose paper. It's a draw!";
+                results.appendChild(runningScore);
+            }
+            else if(humanChoiceLowerCase === "paper" && computerChoice === "scissors"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: paper. The computer chose scissors. You lose!";
+                results.appendChild(runningScore);
+                ++computerScore;
+            }
+        
+            //scissors
+            else if(humanChoiceLowerCase === "scissors" && computerChoice === "rock"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: scissors. The computer chose rock. You lose!";
+                results.appendChild(runningScore);
+                ++computerScore;
+            }
+            else if(humanChoiceLowerCase === "scissors" && computerChoice === "paper"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: scissors. The computer chose paper. You win!";
+                results.appendChild(runningScore);
+                ++humanScore;
+            }
+            else if(humanChoiceLowerCase === "scissors" && computerChoice === "scissors"){
+                const runningScore = document.createElement("div");
+                runningScore.classList.add("runningScore");
+                runningScore.textContent = "You chose: scissors. The computer chose scissors. It's a draw!";
+                results.appendChild(runningScore);
+            }
+            else{
+                console.log("That's not a valid choice.");
+                ++computerScore;
+            }
+
+            if(humanScore == 5){
+                const runningScore = document.createElement("div");
+                runningScore.textContent = "You won!";
+                results.appendChild(runningScore);
+            }
+            else if(computerScore == 5){
+                const runningScore = document.createElement("div");
+                runningScore.textContent = "You lost!";
+                results.appendChild(runningScore);
+            }
+            else{
+                const runningScore = document.createElement("div");
+                runningScore.textContent = "Player: " + humanScore + " Computer: " + computerScore;
+                results.appendChild(runningScore);
+            }
     }
 
-    if(humanScore >= computerScore){
-        console.log("YOU WIN THE GAME!")
-    }
-    else{
-        console.log("The computer wins the game...")
-    }
+    
+
+    buttons.forEach(item => {
+        item.addEventListener("click", () => {
+            const playerChoice = item.textContent;
+            const computerSelection = getComputerChoice();
+            if(humanScore < 5 && computerScore <5){
+                playRound(playerChoice, computerSelection);    
+            }
+            else if(humanScore == 5){
+                const runningScore = document.createElement("div");
+                runningScore.textContent = "You've already won!";
+                results.appendChild(runningScore);
+            }else{
+                const runningScore = document.createElement("div");
+                runningScore.textContent = "You've already lost...";
+                results.appendChild(runningScore);
+            }
+            
+        })
+    });
 }
 
 playGame();
+
